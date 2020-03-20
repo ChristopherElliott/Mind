@@ -75,8 +75,7 @@
 (defn explain
   "To explain the behavior of a function is to be able to code it"
   [f]
-  (evolve 1000 f)
-  )
+  (evolve 1000 f))
 
 
 (def boot-strap-problems
@@ -96,7 +95,10 @@
 (defn select-problem
   "Evolve an explanation of which is the best problem."
   [problems]
-  (explain +))
+  ; Explaining why a problem is the best is explaining why it best meets your goals.
+  ; Dennis thought this would be to replicate a meme
+  ; I think this is to satisfy your homeostatic concerns.
+  (+))
 
 (defn plan-solution
   "Plan Solution"

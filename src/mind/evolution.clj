@@ -2,6 +2,7 @@
 
 
 
+; Specific to explaining arithmetic
 (def function-table (zipmap '(+ - *)
                             '(2 2 2)))
 
@@ -9,9 +10,11 @@
   []
   (rand-nth (keys function-table)))
 
+; Specific to explaining two int valued functions
 (defn random-terminal
   []
   (rand-nth '[in1 in2]))
+
 
 (defn random-code
   [depth]
@@ -27,6 +30,7 @@
   (repeatedly count #(let [x (rand-int 11) y (rand-int 11)]
                        (list x y (f x y)) )))
 
+; Very specific to comparing input function to generated ones
 (defn error
   [f individual]
   (let [value-function (eval (list 'fn '[in1 in2] individual))]
@@ -36,29 +40,29 @@
              1))
          (random-examples f 20))))
 
-(defn codesize [c]
+(defn code-size [c]
   (if (seq? c)
     (count (flatten c))
     1))
 
 (defn random-subtree
   [i]
-  (if (zero? (rand-int (codesize i)))
+  (if (zero? (rand-int (code-size i)))
     i
     (random-subtree
       (rand-nth
         (apply concat
-               (map #(repeat (codesize %) %)
+               (map #(repeat (code-size %) %)
                     (rest i)))))))
 
 (defn replace-random-subtree
   [i replacement]
-  (if (zero? (rand-int (codesize i)))
+  (if (zero? (rand-int (code-size i)))
     replacement
     (let [position-to-change
           (rand-nth
             (apply concat
-                   (map #(repeat (codesize %1) %2)
+                   (map #(repeat (code-size %1) %2)
                         (rest i)
                         (iterate inc 1))))]
       (map #(if %1 (replace-random-subtree %2 replacement) %2)
@@ -101,10 +105,10 @@
                  (rest cases)))))))
 
 (defn evolve
-  [popsize f]
+  [pop-size f]
   (println "Starting evolution...")
   (loop [generation 0
-         population (sort-by-error f (repeatedly popsize #(random-code 2)))]
+         population (sort-by-error f (repeatedly pop-size #(random-code 2)))]
     (let [best (first population)
           best-error (reduce + (error f best))]
       (println "======================")
@@ -112,19 +116,19 @@
       (println "Best error:" best-error)
       (println "Best program:" best)
       (println "     Median error:" (error f (nth population
-                                                (int (/ popsize 2)))))
+                                                (int (/ pop-size 2)))))
       (println "     Average program size:"
                (float (/ (reduce + (map count (map flatten population)))
                          (count population))))
       (if (< best-error 0.1) ;; good enough to count as success
-        (println "Success:" best)
+        (list 'fn '[in1, in2] best)
         (recur
           (inc generation)
           (sort-by-error f
             (concat
-              (repeatedly (* 1/10 popsize) #(mutate (select population)))
-              (repeatedly (* 8/10 popsize) #(crossover (select population)
+              (repeatedly (* 1/10 pop-size) #(mutate (select population)))
+              (repeatedly (* 8/10 pop-size) #(crossover (select population)
                                                        (select population)))
-              (repeatedly (* 1/10 popsize) #(select population)))))))))
+              (repeatedly (* 1/10 pop-size) #(select population)))))))))
 
 

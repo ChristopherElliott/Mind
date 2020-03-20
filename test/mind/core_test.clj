@@ -17,9 +17,9 @@
 ;  (testing "How is this explanation interpreted"
 ;    ('(abstraction))))
 
-(deftest black-box-explanationbest
+(deftest black-box-best-explanation
   (testing "Explain this black-boxed function."
-    (let [f '(fn [x y] (+ x y))]
+    (let [f '(fn [in1 in2] (+ in1 in2))]
       (is (= f
              (explain (eval f)))))))
 
