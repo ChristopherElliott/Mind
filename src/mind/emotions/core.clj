@@ -1,6 +1,6 @@
 (ns mind.emotions.core
-  (:require [emotions.util :refer :all]
-            [emotions.serialise :refer :all]
+  (:require [mind.emotions.util :refer :all]
+            [mind.emotions.serialise :refer :all]
             [clj-time.core :as t]
             [clj-time.coerce :as tc]
             [clojure.edn :as edn]))

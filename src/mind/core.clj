@@ -1,81 +1,11 @@
 (ns mind.core
-  (:require [mind.evolution :refer :all]))
-  ;(:require [clojure-tensorflow.ops :as tf]
-  ;          [clojure-tensorflow.layers :as layer]
-  ;          [clojure-tensorflow.optimizers :as optimize]
-  ;          [clojure-tensorflow.core :refer [run with-graph with-session]]))
-
-;
-;(def conjecture)
-;
-;(def criticise)
-;
-;(def collect)
-;
-;(def reflect)
-;
-;(def goal)
-;
-
-
-;(defn communicate)
-;
-;(def scheduler
-;  (let [thought (think)]
-;    (communicate thought)))
-;
-;
-;(def external-communication)
-;
-;(def lt-memory)
-;
-;(def working-memory)
-
-;(do
-;  (
-;   (load-eval "~/data/agent.clj")
-;   (write-file (criticise best-explanation) "~/data/agent.clj"))))
-;
-;
-;
-;;; Training data
-;(def input (tf/constant [[0. 1.] [0. 0.] [1. 1.] [1. 0.]]))
-;(def target (tf/constant [[0.] [0.] [1.] [1.]]))
-;
-;;; Define network / model
-;(def network
-;  ;; first layer is just the training input data
-;  (-> input
-;      ;; next is a hidden layer of six neurons
-;      ;; we can set the activation function like so
-;      (layer/linear 6 :activation tf/sigmoid)
-;      ;; next is a hidden layer of eight neurons
-;      ;; tf/sigmoid is used by default when we dont
-;      ;; specify an activation fn
-;      (layer/linear 8)
-;      ;; our last layer needs to be the same size as
-;      ;; our training target data, so one neuron.
-;      (layer/linear 1)))
-;
-;
-;;; Cost function; we're using the squared difference
-;(def error (tf/square (tf/sub target network)))
-;
-;;; Initialize global variables
-;(run (tf/global-variables-initializer))
-;
-;;; Train Network 1000 epochs
-;(run (repeat 1000 (optimize/gradient-descent error)))
-;
-;;; Initialize global variables
-;(run (tf/mean error))
-;;; => [9.304908E-5]
-;;; the error is now incredibly small
+  (:require [mind.evolution :as evolution]
+            [mind.arithmetic_reasoning :as math]))
 
 (defn explain
   "To explain the behavior of a function is to be able to code it"
   [f]
-  (evolve 1000 f))
+  (math/explain-arithmetic-function f))
 
 
 (def boot-strap-problems
@@ -92,23 +22,46 @@
       problems
       (boot-strap-problems)))
 
+
+
+
+
+
+(def function-table (zipmap '(sleep eat cry view say)
+                            '(1 1 1 0 1)))
+
+(defn random-terminal
+  []
+  (rand-nth '[in1]))
+
+
+(defn error
+  [f individual]
+  (let [value-function (eval (list 'fn '[in1 in2] individual))]
+    (map (fn [[in1 in2 correct_output]]
+           (if (= (value-function in1 in2) correct_output)
+             0
+             1))
+         (random-examples f 20))))
+
+
 (defn select-problem
   "Evolve an explanation of which is the best problem."
   [problems]
-  ; Explaining why a problem is the best is explaining why it best meets your goals.
   ; Dennis thought this would be to replicate a meme
   ; I think this is to satisfy your homeostatic concerns.
-  (+))
+  ; A problem is represented as a fitness function aka Goal
+  (evolution/evolve 1000 f function-table random-terminal error))
 
 (defn plan-solution
   "Plan Solution"
-  [problems]
-  (explain +))
+  [problem-error]
+  (evolution/evolve 1000 f function-table random-terminal problem-error))
 
 (defn execute-plan
   "Execute plan"
   [plan]
-  (explain plan))
+  (eval plan))
 
 (defn problem-solve
   "Select next problem to solve, plan and execute"

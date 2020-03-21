@@ -1,44 +1,18 @@
 (ns mind.evolution)
 
-
-
-; Specific to explaining arithmetic
-(def function-table (zipmap '(+ - *)
-                            '(2 2 2)))
-
 (defn random-function
-  []
+  [function-table]
   (rand-nth (keys function-table)))
 
-; Specific to explaining two int valued functions
-(defn random-terminal
-  []
-  (rand-nth '[in1 in2]))
-
-
 (defn random-code
-  [depth]
+  [depth function-table random-terminal]
   (if (or (zero? depth)
           (zero? (rand-int 2)))
     (random-terminal)
-    (let [f (random-function)]
+    (let [f (random-function function-table)]
       (cons f (repeatedly (get function-table f)
-                          #(random-code (dec depth)))))))
+                          #(random-code (dec depth) function-table random-terminal))))))
 
-(defn random-examples
-  [f count]
-  (repeatedly count #(let [x (rand-int 11) y (rand-int 11)]
-                       (list x y (f x y)) )))
-
-; Very specific to comparing input function to generated ones
-(defn error
-  [f individual]
-  (let [value-function (eval (list 'fn '[in1 in2] individual))]
-    (map (fn [[in1 in2 correct_output]]
-           (if (= (value-function in1 in2) correct_output)
-             0
-             1))
-         (random-examples f 20))))
 
 (defn code-size [c]
   (if (seq? c)
@@ -70,15 +44,15 @@
            i))))
 
 (defn mutate
-  [i]
-  (replace-random-subtree i (random-code 2)))
+  [i function-table random-terminal]
+  (replace-random-subtree i (random-code 2 function-table random-terminal)))
 
 (defn crossover
   [i j]
   (replace-random-subtree i (random-subtree j)))
 
 (defn sort-by-error
-  [f population]
+  [f population error]
   (vec (map #(with-meta (last %) {:errors (first %)})
             (sort (fn [[errors1 total-error1 prog1] [errors2 total-error2 prog2]]
                     (< total-error1 total-error2))
@@ -105,10 +79,10 @@
                  (rest cases)))))))
 
 (defn evolve
-  [pop-size f]
+  [pop-size f function-table random-terminal error]
   (println "Starting evolution...")
   (loop [generation 0
-         population (sort-by-error f (repeatedly pop-size #(random-code 2)))]
+         population (sort-by-error f (repeatedly pop-size #(random-code 2 function-table random-terminal)) error)]
     (let [best (first population)
           best-error (reduce + (error f best))]
       (println "======================")
@@ -124,9 +98,9 @@
         (list 'fn '[in1, in2] best)
         (recur
           (inc generation)
-          (sort-by-error f
+          (sort-by-error f error
             (concat
-              (repeatedly (* 1/10 pop-size) #(mutate (select population)))
+              (repeatedly (* 1/10 pop-size) #(mutate (select population) function-table random-terminal))
               (repeatedly (* 8/10 pop-size) #(crossover (select population)
                                                        (select population)))
               (repeatedly (* 1/10 pop-size) #(select population)))))))))

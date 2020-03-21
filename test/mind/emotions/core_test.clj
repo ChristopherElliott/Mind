@@ -1,7 +1,7 @@
 (ns mind.emotions.core-test
-  (:require [emotions.core :refer :all]
-            [emotions.util :refer :all]
-            [emotions.motivations :refer :all]
+  (:require [mind.emotions.core :refer :all]
+            [mind.emotions.util :refer :all]
+            [mind.emotions.motivations :refer :all]
             [expectations :refer :all]
             [clojure.test :refer [function?]]
             [clojure.pprint :refer [pprint]]))

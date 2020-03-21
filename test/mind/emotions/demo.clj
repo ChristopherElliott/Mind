@@ -1,8 +1,8 @@
 (ns mind.emotions.demo
   (:require [clojure.string :refer [trim]]
             [clojure.pprint :refer [pprint]]
-            [emotions.core :refer :all]
-            [emotions.util :refer :all]))
+            [mind.emotions.core :refer :all]
+            [mind.emotions.util :refer :all]))
 
 ; layers from bottom to top
 (def demo-layers [:physical :safety :social :skill :contribution])
@@ -102,7 +102,7 @@
 
 (defn demo-instructions
   []
-  (println "Select which percepts, or none to show at each time step to see how the satisfaction-vector changes. Selecting no percepts will mean that only motications with a decay rate will change."))
+  (println "Select which percepts, or none to show at each time step to see how the satisfaction-vector changes. Selecting no percepts will mean that only motivations with a decay rate will change."))
 
 (defn continue-demo?
   []
