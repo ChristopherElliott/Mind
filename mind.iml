@@ -13,14 +13,34 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Leiningen: clj-time:0.7.0" level="project" />
+    <orderEntry type="library" name="Leiningen: clj-time:0.8.0" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.5" level="project" />
+    <orderEntry type="library" name="Leiningen: clojure-lanterna:0.9.4" level="project" />
+    <orderEntry type="library" name="Leiningen: com.googlecode.lanterna/lanterna:2.1.5" level="project" />
+    <orderEntry type="library" name="Leiningen: com.jgoodies/forms:1.2.1" level="project" />
+    <orderEntry type="library" name="Leiningen: com.miglayout/miglayout:3.7.4" level="project" />
     <orderEntry type="library" name="Leiningen: erajure:0.0.3" level="project" />
     <orderEntry type="library" name="Leiningen: expectations:1.4.56" level="project" />
+    <orderEntry type="library" name="Leiningen: j18n:1.0.2" level="project" />
     <orderEntry type="library" name="Leiningen: joda-time:2.3" level="project" />
     <orderEntry type="library" name="Leiningen: junit:4.8.1" level="project" />
+    <orderEntry type="library" name="Leiningen: me.raynes/fs:1.4.4" level="project" />
     <orderEntry type="library" name="Leiningen: nrepl:0.6.0" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.5.1" level="project" />
+    <orderEntry type="library" name="Leiningen: opencv/opencv-native:2.4.10" level="project" />
+    <orderEntry type="library" name="Leiningen: opencv:1.1.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.apache.commons/commons-compress:1.4" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.10.1" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/core.specs.alpha:0.2.44" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/spec.alpha:0.2.176" level="project" />
+    <orderEntry type="library" name="Leiningen: org.fife.ui/rsyntaxtextarea:2.0.4.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.mockito/mockito-all:1.8.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.swinglabs.swingx/swingx-action:1.6.3" level="project" />
+    <orderEntry type="library" name="Leiningen: org.swinglabs.swingx/swingx-autocomplete:1.6.3" level="project" />
+    <orderEntry type="library" name="Leiningen: org.swinglabs.swingx/swingx-common:1.6.3" level="project" />
+    <orderEntry type="library" name="Leiningen: org.swinglabs.swingx/swingx-core:1.6.3" level="project" />
+    <orderEntry type="library" name="Leiningen: org.swinglabs.swingx/swingx-painters:1.6.3" level="project" />
+    <orderEntry type="library" name="Leiningen: org.swinglabs.swingx/swingx-plaf:1.6.3" level="project" />
+    <orderEntry type="library" name="Leiningen: org.tukaani/xz:1.0" level="project" />
+    <orderEntry type="library" name="Leiningen: seesaw:1.4.4" level="project" />
   </component>
 </module>
