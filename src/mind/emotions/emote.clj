@@ -1,4 +1,4 @@
-(ns mind.emotions.core
+(ns mind.emotions.emote
   (:require [mind.emotions.util :refer :all]
             [mind.emotions.serialise :refer :all]
             [clj-time.core :as t]

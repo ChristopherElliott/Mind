@@ -51,14 +51,7 @@
   [i j]
   (replace-random-subtree i (random-subtree j)))
 
-(defn sort-by-error
-  [f population error]
-  (vec (map #(with-meta (last %) {:errors (first %)})
-            (sort (fn [[errors1 total-error1 prog1] [errors2 total-error2 prog2]]
-                    (< total-error1 total-error2))
-                  (map #(let [errs (error f %)]
-                          (vector errs (reduce + errs) %))
-                       population)))))
+
 
 (defn select
   [population]
@@ -78,31 +71,5 @@
                          survivors)
                  (rest cases)))))))
 
-(defn evolve
-  [pop-size f function-table random-terminal error]
-  (println "Starting evolution...")
-  (loop [generation 0
-         population (sort-by-error f (repeatedly pop-size #(random-code 2 function-table random-terminal)) error)]
-    (let [best (first population)
-          best-error (reduce + (error f best))]
-      (println "======================")
-      (println "Generation:" generation)
-      (println "Best error:" best-error)
-      (println "Best program:" best)
-      (println "     Median error:" (error f (nth population
-                                                (int (/ pop-size 2)))))
-      (println "     Average program size:"
-               (float (/ (reduce + (map count (map flatten population)))
-                         (count population))))
-      (if (< best-error 0.1) ;; good enough to count as success
-        (list 'fn '[in1, in2] best)
-        (recur
-          (inc generation)
-          (sort-by-error f error
-            (concat
-              (repeatedly (* 1/10 pop-size) #(mutate (select population) function-table random-terminal))
-              (repeatedly (* 8/10 pop-size) #(crossover (select population)
-                                                       (select population)))
-              (repeatedly (* 1/10 pop-size) #(select population)))))))))
 
 

@@ -1,7 +1,7 @@
 (ns mind.emotions.demo
   (:require [clojure.string :refer [trim]]
             [clojure.pprint :refer [pprint]]
-            [mind.emotions.core :refer :all]
+            [mind.emotions.emote :refer :all]
             [mind.emotions.util :refer :all]))
 
 ; layers from bottom to top
@@ -133,6 +133,7 @@
                 (println)
                 (recur new-sv new-motivations)))))))))
 
-(defn -main
-  [& args]
-  (run-demo))
+
+(deftest test-demo
+   (testing "Explain this black-boxed function."
+      (run-demo)))

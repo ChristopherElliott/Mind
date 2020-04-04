@@ -1,5 +1,5 @@
 (ns mind.emotions.memory-test
-  (:require [mind.emotions.core :refer :all]
+  (:require [mind.emotions.emote :refer :all]
             [mind.emotions.util :refer :all]
             [mind.emotions.motivations :refer :all]
             [clj-time.core :as t]
